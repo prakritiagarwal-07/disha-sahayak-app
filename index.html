@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disha Sahayak - AI Chatbot</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for a clean look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        /* Custom scrollbar for chat window */
+        #chat-window::-webkit-scrollbar { width: 6px; }
+        #chat-window::-webkit-scrollbar-track { background: #f1f1f1; }
+        #chat-window::-webkit-scrollbar-thumb { background: #888; border-radius: 3px;}
+        #chat-window::-webkit-scrollbar-thumb:hover { background: #555; }
+        .loader {
+            border: 4px solid #f3f3f3; border-top: 4px solid #f97316; /* Orange spinner */
+            border-radius: 50%; width: 30px; height: 30px;
+            animation: spin 1s linear infinite; margin: 1rem auto;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg flex flex-col" style="height: 80vh;">
+        <!-- Header -->
+        <header class="bg-orange-500 text-white p-4 flex justify-between items-center rounded-t-xl shadow-md">
+            <h1 class="text-xl font-bold">Disha Sahayak AI Assistant</h1>
+            <button id="restart-btn" title="Start Over" class="text-white hover:bg-orange-600 rounded-full p-1 transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h5M20 20v-5h-5M4 4l1.5 1.5A9 9 0 0121.5 16.5"></path><path d="M20 20l-1.5-1.5A9 9 0 002.5 7.5"></path></svg>
+            </button>
+        </header>
+
+        <!-- Chat Window -->
+        <div id="chat-window" class="flex-1 p-6 overflow-y-auto">
+            <!-- Chat messages will be dynamically inserted here -->
+        </div>
+
+        <!-- Input Area -->
+        <footer class="p-4 border-t border-gray-200">
+            <form id="chat-form" class="flex items-center space-x-3">
+                <input type="text" id="user-input" placeholder="Type your answer..." autocomplete="off" required
+                       class="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:ring-orange-500 focus:border-orange-500">
+                <button type="submit" id="send-btn"
+                        class="bg-orange-500 text-white rounded-full p-3 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                </button>
+            </form>
+            <div id="options-container" class="mt-2 flex flex-wrap gap-2">
+                <!-- Option buttons will be dynamically inserted here -->
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // --- 1. DOM Element References ---
+        const chatWindow = document.getElementById('chat-window');
+        const chatForm = document.getElementById('chat-form');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        const optionsContainer = document.getElementById('options-container');
+        const restartBtn = document.getElementById('restart-btn');
+
+
+        // --- 2. State Management ---
+        let conversationState = 'asking_education';
+        const userProfile = {};
+        const trackedApplications = {};
+        const questions = [
+            { id: 'asking_education', text: "Hello! I'm Mitra, your AI assistant. To start, what is your highest education level?", options: ['Graduate', 'Post Graduate', '12th Pass'], nextState: 'asking_location' },
+            { id: 'asking_location', text: "Great. Now, which city are you looking for an internship in?", nextState: 'asking_skills' },
+            { id: 'asking_skills', text: "Got it. What skills do you have? (e.g., MS Excel, Communication)", nextState: 'asking_stipend' },
+            { id: 'asking_stipend', text: "Perfect. What is your minimum desired monthly stipend? (e.g., 8000)", nextState: 'asking_priority' },
+            { id: 'asking_priority', text: "Almost done! What is your TOP priority?", options: ['Skills', 'Location', 'Education', 'Stipend'], nextState: 'processing' }
+        ];
+
+        // --- 3. Conversation Flow ---
+        function startConversation() {
+            const firstQuestion = questions.find(q => q.id === conversationState);
+            addBotMessage(firstQuestion.text);
+            if (firstQuestion.options) {
+                showOptions(firstQuestion.options);
+            }
+        }
+
+        function handleUserInput(e) {
+            e.preventDefault();
+            const message = userInput.value.trim();
+            if (!message) return;
+            
+            addUserMessage(message);
+            processAnswer(message);
+            userInput.value = '';
+        }
+        
+        function processAnswer(answer) {
+            const currentQuestion = questions.find(q => q.id === conversationState);
+            
+            const key = conversationState.replace('asking_', '');
+            userProfile[key] = answer;
+            
+            conversationState = currentQuestion.nextState;
+
+            if (conversationState === 'processing') {
+                getRecommendations();
+            } else {
+                const nextQuestion = questions.find(q => q.id === conversationState);
+                setTimeout(() => {
+                    addBotMessage(nextQuestion.text);
+                    if (nextQuestion.options) {
+                        showOptions(nextQuestion.options);
+                    }
+                }, 500);
+            }
+        }
+
+        async function getRecommendations() {
+            addBotMessage("Awesome! I have all the info I need. Searching for the best internships for you now...", true);
+            
+            // --- THIS IS THE CRITICAL FIX ---
+            // Use a relative path so it works on both localhost and your live URL
+            const API_URL = '/recommendations/'; 
+
+            const apiProfile = {
+                education: userProfile.education,
+                location_city: userProfile.location,
+                skills: userProfile.skills,
+                min_stipend: parseInt(userProfile.stipend, 10) || 0
+            };
+            const priority = userProfile.priority.toLowerCase();
+            const fullUrl = `${API_URL}?priority=${priority}`;
+
+            try {
+                const response = await fetch(fullUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(apiProfile),
+                });
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.detail || 'API request failed');
+                
+                displayResults(data.recommendations);
+
+            } catch (error) {
+                addBotMessage(`Sorry, an error occurred: ${error.message}`);
+            } finally {
+                userInput.placeholder = 'You can track an application now.';
+            }
+        }
+
+        // --- 4. UI Helper Functions ---
+        function addMessage(content, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `max-w-xs md:max-w-md p-3 rounded-lg ${sender === 'user' ? 'bg-orange-500 text-white self-end rounded-br-none' : 'bg-gray-200 text-gray-800 self-start rounded-bl-none'}`;
+            messageDiv.innerHTML = content;
+            chatWindow.appendChild(messageDiv);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+
+        function addBotMessage(text, isLoading = false) {
+            const content = isLoading ? `<div class="loader"></div><p class="text-center text-sm">${text}</p>` : text;
+            addMessage(content, 'bot');
+        }
+
+        function addUserMessage(text) {
+            addMessage(text, 'user');
+        }
+
+        function showOptions(options) {
+            optionsContainer.innerHTML = '';
+            userInput.classList.add('hidden');
+            sendBtn.classList.add('hidden');
+
+            options.forEach(option => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.className = 'bg-gray-200 text-gray-700 px-4 py-2 rounded-full text-sm hover:bg-orange-200 transition';
+                button.onclick = () => {
+                    addUserMessage(option);
+                    processAnswer(option);
+                    optionsContainer.innerHTML = '';
+                    userInput.classList.remove('hidden');
+                    sendBtn.classList.remove('hidden');
+                };
+                optionsContainer.appendChild(button);
+            });
+        }
+        
+        function displayResults(recommendations) {
+            document.querySelector('.loader')?.parentElement.remove();
+            
+            if (!recommendations || recommendations.length === 0) {
+                addBotMessage('Sorry, no matching internships were found based on your profile.');
+                disableInput();
+                return;
+            }
+
+            addBotMessage("Here are your top recommendations! Click 'Track Application' after you apply on the official site.");
+            
+            recommendations.forEach(internship => {
+                const safeTitle = internship.title.replace(/'/g, "\\'");
+                const cardHTML = `
+                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mt-2">
+                        <div class="flex justify-between items-start">
+                            <h3 class="text-md font-bold text-orange-700">${internship.title}</h3>
+                            <span class="bg-orange-100 text-orange-800 text-xs font-semibold px-2 py-1 rounded-full">${internship.match_score_percent}% Match</span>
+                        </div>
+                        <div class="mt-3 grid grid-cols-2 gap-2 text-xs text-gray-600">
+                            <div><strong>📍 Location:</strong> ${internship.location_city}</div>
+                            <div><strong>💰 Stipend:</strong> ₹${internship.stipend}</div>
+                            <div class="col-span-2"><strong>🎓 Education:</strong> ${internship.education_required}</div>
+                        </div>
+                        <div class="mt-3">
+                            <p class="text-xs text-gray-800 font-medium"><strong>🛠️ Skills:</strong></p>
+                            <p class="text-xs text-gray-600">${internship.skills_required}</p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t flex items-center gap-3">
+                            <a href="https://www.google.com/search?q=pm+internship+portal" target="_blank" class="flex-1 text-center bg-orange-500 text-white px-3 py-1.5 rounded-md text-sm font-semibold hover:bg-orange-600 transition">Apply Now</a>
+                            <button onclick="handleTrackClick('${safeTitle}')" class="flex-1 text-center bg-gray-600 text-white px-3 py-1.5 rounded-md text-sm font-semibold hover:bg-gray-700 transition">Track Application</button>
+                        </div>
+                    </div>
+                `;
+                addBotMessage(cardHTML);
+            });
+        }
+        
+        function handleTrackClick(title) {
+            if (trackedApplications[title]) {
+                addBotMessage(`I'm already tracking your application for "${title}". Here's the current status:`);
+            } else {
+                trackedApplications[title] = 'Sent';
+                addBotMessage(`Great! I will now start tracking your application for "${title}".`);
+            }
+            displayTrackingTimeline(title);
+        }
+
+        function displayTrackingTimeline(title) {
+            const status = trackedApplications[title];
+            const timelineHTML = `
+                <div class="bg-gray-100 rounded-lg p-3 mt-2">
+                    <p class="text-sm font-bold text-gray-800">Application Status: ${title}</p>
+                    <div class="flex justify-between items-center text-xs mt-2 text-center">
+                        <div class="w-1/3 font-semibold ${status === 'Sent' ? 'text-orange-600' : 'text-gray-500'}">✅<br>Sent</div>
+                        <div class="flex-1 h-0.5 bg-gray-300"></div>
+                        <div class="w-1/3 font-semibold ${status === 'In Review' ? 'text-orange-600' : 'text-gray-500'}">🕔<br>In Review</div>
+                        <div class="flex-1 h-0.5 bg-gray-300"></div>
+                        <div class="w-1/3 font-semibold ${status === 'Hired' ? 'text-orange-600' : 'text-gray-500'}">🎉<br>Hired</div>
+                    </div>
+                </div>
+            `;
+            addBotMessage(timelineHTML);
+        }
+        
+        function disableInput() {
+            userInput.placeholder = 'Conversation ended. Click restart.';
+            userInput.disabled = true;
+            sendBtn.disabled = true;
+        }
+
+        // --- 5. Event Listeners ---
+        chatForm.addEventListener('submit', handleUserInput);
+        restartBtn.addEventListener('click', () => {
+            window.location.reload();
+        });
+        
+        // --- 6. Initialise ---
+        startConversation();
+    </script>
+</body>
+</html>
+
