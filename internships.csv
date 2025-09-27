@@ -1,0 +1,51 @@
+internship_id,title,description,education_required,skills_required,location_city,latitude,longitude,stipend
+1,Data Entry Operator,Description for internship 1,12th Pass,"MS Excel, Typing Speed, Attention to Detail",Jaipur,26.9124,75.7873,13300
+2,Social Media Marketing Intern,Description for internship 2,Graduate,"Social Media Management, Content Creation, Communication",Pune,18.5204,73.8567,17700
+3,Graphic Design Intern,Description for internship 3,Graduate,"Adobe Photoshop, Canva, Creativity",Bangalore,12.9716,77.5946,13500
+4,Content Writing Intern,Description for internship 4,Graduate,"Creative Writing, SEO, Research",Delhi,28.7041,77.1025,10300
+5,Web Development Intern (Frontend),Description for internship 5,Graduate,"HTML, CSS, JavaScript",Lucknow,26.8467,80.9462,10000
+6,HR Assistant Intern,Description for internship 6,Graduate,"MS Office, Communication, Organization",Bhopal,23.2599,77.4126,15900
+7,Market Research Analyst,Description for internship 7,Post Graduate,"Data Analysis, Research, MS Excel",Patna,25.5941,85.1376,18000
+8,Agriculture Field Assistant,Description for internship 8,12th Pass,"Agriculture, Communication",Udaipur,24.5854,73.7125,15600
+9,Rural Development Project Intern,Description for internship 9,Graduate,"Project Management, Community Engagement",Ranchi,23.3441,85.3096,17000
+10,Government Scheme Promoter,Description for internship 10,12th Pass,"Public Speaking, Communication",Bhubaneswar,20.2961,85.8245,6000
+11,IT Helpdesk Support,Description for internship 11,Graduate,"Troubleshooting, Customer Service",Hyderabad,17.385,78.4867,16400
+12,Accounts Assistant,Description for internship 12,Graduate,"Tally, Bookkeeping, MS Excel",Mumbai,19.076,72.8777,14800
+13,Videography Intern,Description for internship 13,12th Pass,"Video Editing, Adobe Premiere Pro",Chennai,13.0827,80.2707,16700
+14,Community Mobilizer,Description for internship 14,12th Pass,"Communication, Public Speaking",Kolkata,22.5726,88.3639,9200
+15,Public Health Intern,Description for internship 15,Graduate,"Data Collection, MS Office",Ahmedabad,23.0225,72.5714,13100
+16,E-commerce Operations Intern,Description for internship 16,Graduate,"MS Excel, E-commerce Platforms",Surat,21.1702,72.8311,17400
+17,Digital Marketing Intern,Description for internship 17,Graduate,"SEO, Google Ads, Social Media Marketing",Nagpur,21.1458,79.0882,10500
+18,Mobile App Development Intern,Description for internship 18,Graduate,"Java, Android Studio, XML",Indore,22.7196,75.8577,10000
+19,Customer Service Intern,Description for internship 19,12th Pass,"Communication, Problem Solving",Thane,19.2183,72.9781,5200
+20,Supply Chain Intern,Description for internship 20,Graduate,"Logistics, MS Excel",Ghaziabad,28.6692,77.4538,11700
+21,Data Analyst Intern,Description for internship 21,Post Graduate,"Python, SQL, Data Visualization",Ludhiana,30.901,75.8573,14800
+22,Graphic Designer (UI/UX),Description for internship 22,Graduate,"Figma, Adobe XD, UI/UX Design",Agra,27.1767,78.0081,12700
+23,Journalism Intern,Description for internship 23,Graduate,"Writing, Research",Nashik,20.0112,73.7898,12400
+24,Renewable Energy Intern,Description for internship 24,Graduate,"MS Office, Research",Faridabad,28.4089,77.3178,18700
+25,Teaching Assistant Intern,Description for internship 25,Graduate,"Communication, Patience",Meerut,28.9845,77.6793,13900
+26,Legal Research Intern,Description for internship 26,Graduate,"Legal Research, MS Word",Rajkot,22.3039,70.7915,10700
+27,Event Management Intern,Description for internship 27,12th Pass,"Organization, Communication",Varanasi,25.3176,82.9739,11200
+28,Photography Intern,Description for internship 28,12th Pass,"Adobe Lightroom, Photography",Srinagar,34.0837,74.7973,19500
+29,Mechanical Engineering Intern,Description for internship 29,Graduate,"AutoCAD, SolidWorks",Aurangabad,19.8762,75.3433,14500
+30,Civil Engineering Site Intern,Description for internship 30,Graduate,"Site Supervision, AutoCAD",Dhanbad,23.7957,86.4304,5800
+31,Financial Literacy Campaigner,Description for internship 31,12th Pass,"Communication, Finance",Amritsar,31.634,74.8723,11400
+32,Content Creator (Video),Description for internship 32,Graduate,"Video Editing, Creativity",Allahabad,25.4358,81.8463,11400
+33,Public Relations Intern,Description for internship 33,Graduate,"Writing, Communication",Jodhpur,26.2389,73.0243,6200
+34,Animal Husbandry Intern,Description for internship 34,12th Pass,"Veterinary Science, Animal Care",Raipur,21.2514,81.6296,7100
+35,Lab Assistant (Science),Description for internship 35,Graduate,"MS Office, Attention to Detail",Coimbatore,11.0168,76.9558,6700
+36,Library Management Intern,Description for internship 36,12th Pass,"Organization, MS Office",Guwahati,26.1445,91.7362,14300
+37,Tourism and Hospitality Intern,Description for internship 37,12th Pass,"Customer Service, Communication",Chandigarh,30.7333,76.7794,6400
+38,Logistics Coordinator Intern,Description for internship 38,Graduate,"MS Excel, Organization",Mysore,12.2958,76.6394,15400
+39,Local Governance Intern,Description for internship 39,Graduate,"Research, MS Office",Gurgaon,28.4595,77.0266,11000
+40,CAD Designer Intern,Description for internship 40,Graduate,"AutoCAD, Design",Noida,28.5355,77.391,9300
+41,Nutrition and Dietetics Intern,Description for internship 41,Graduate,"Nutrition, Communication",Shimla,31.1048,77.1734,19300
+42,Social Work Intern,Description for internship 42,Graduate,"Empathy, Communication",Dehradun,30.3165,78.0322,17100
+43,Digital Illustrator,Description for internship 43,Graduate,"Adobe Illustrator, Digital Art",Visakhapatnam,17.6868,83.2185,6500
+44,Software Testing Intern,Description for internship 44,Graduate,"Manual Testing, Bug Reporting",Kochi,9.9312,76.2711,18100
+45,SEO Analyst Intern,Description for internship 45,Graduate,"SEO, Google Analytics",Thiruvananthapuram,8.5241,76.9366,19200
+46,Urban Planning Assistant,Description for internship 46,Graduate,"AutoCAD, Research",Kota,25.18,75.83,9100
+47,AI/ML Project Intern,Description for internship 47,Post Graduate,"Python, TensorFlow, Scikit-learn",Bhilwara,25.33,74.63,15400
+48,Cybersecurity Intern,Description for internship 48,Post Graduate,"Networking, Cybersecurity Basics",Ajmer,26.44,75.08,15300
+49,Robotics Intern,Description for internship 49,Graduate,"C++, Arduino, Problem Solving",Alwar,27.55,76.63,7700
+50,Content Translation Intern,Description for internship 50,Graduate,"Bilingual, Translation, Writing",Sikar,27.53,75.13,8100
